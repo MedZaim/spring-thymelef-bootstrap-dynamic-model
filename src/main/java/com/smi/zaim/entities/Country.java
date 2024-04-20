@@ -15,13 +15,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity    @Data @NoArgsConstructor @AllArgsConstructor
-public class Cantry {
+public class Country {
     @Id @GeneratedValue
-  private   int id ;
+  private   Integer id ;
   private   String name;
   private String capital;
 
-    public Cantry(int id, String name) {
+    public Country(int id, String name) {
         this.id = id;
         this.name = name;
     }

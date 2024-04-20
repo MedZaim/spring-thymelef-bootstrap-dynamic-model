@@ -1,10 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js"></script>
+
 </head>
 <body>
-$END$
+<div class="container">
+    <div class="card ">
+        <div class="card card-block p-3">
+            <table class="table table-striped table-hover ">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Cantry</th>
+                    <th>Capital</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="country : ${data.content}">
+                    <td th:text="${country.id}">1</td>
+                    <td th:text="${country.name}">Name</td>
+                    <td th:text="${country.capital}">capital</td>
+                    <td>
+                        <a class="btn btn-primary eBtn" data-bs-target="#exampleModal"
+                           data-bs-toggle="modal"
+                           th:href="@{/findOne/(id=${country.id})}"
+                        >Edit</a>
+                        <a class="btn btn-danger">Delete</a>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <ul class="nav nav-pills">
+                <li class="nav-item"
+                    th:each="i :${#numbers.sequence(0,(data.totalPages)-1)}">
+                    <a class="nav-link " th:classappend="${currentPage == i} ? 'active' : ''"
+                       th:text="${i+1}" th:href="@{/(page=${i})}">
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<div class="myForm">
+    <form th:action="@{/save}" method="post">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Or Create</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="id" class="col-form-label">ID:</label>
+                            <input type="text" class="form-control" id="id" name="id" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="capital" class="col-form-label">Capital:</label>
+                            <input type="text" class="form-control" id="capital" name="capital" value="">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>
