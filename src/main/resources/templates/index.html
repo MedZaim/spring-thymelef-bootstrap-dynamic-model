@@ -19,21 +19,25 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Cantry</th>
+                    <th>Country</th>
                     <th>Capital</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="country : ${data.content}">
-                    <td th:text="${country.id}">1</td>
-                    <td th:text="${country.name}">Name</td>
-                    <td th:text="${country.capital}">capital</td>
+                    <td th:text="${country.id}" ></td>
+                    <td th:text="${country.name}"></td>
+                    <td th:text="${country.capital}"></td>
                     <td>
-                        <a class="btn btn-primary eBtn" data-bs-target="#exampleModal"
+                        <button class="btn btn-primary eBtn" data-bs-target="#exampleModal"
                            data-bs-toggle="modal"
-                           th:href="@{/findOne/(id=${country.id})}"
-                        >Edit</a>
-                        <a class="btn btn-danger">Delete</a>
+                            th:attr="data-id=${country.id},data-name=${country.name},data-capital=${country.capital}"
+                        >Edit</button>
+
+                         <a th:href="@{|/deleteCountry/?id=*{country.id}&page=*{currentPage}|}">
+                        <button class="btn btn-danger" id="deleteBtn">Delete</button>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -45,8 +49,11 @@
                        th:text="${i+1}" th:href="@{/(page=${i})}">
                     </a>
                 </li>
-            </ul>
+                <li class="nav-item">
+                    <button class="btn btn-success nav-link  newBtn ml-3" id="addbtn" data-bs-target="#exampleModal" data-bs-toggle="modal">Add New</button>
+                </li>
 
+            </ul>
         </div>
     </div>
 </div>
@@ -61,22 +68,23 @@
                     </div>
                     <div class="modal-body">
 
-                        <div class="mb-3">
-                            <label for="id" class="col-form-label">ID:</label>
-                            <input type="text" class="form-control" id="id" name="id" value="">
+                        <div class="mb-3" >
+                           <!-- <label for="id" class="col-form-label">ID:</label>-->
+                            <input type="hidden"  class="form-control" id="id" name="id" value="">
                         </div>
                         <div class="mb-3">
                             <label for="name" class="col-form-label">Name:</label>
                             <input type="text" class="form-control" id="name" name="name" value="">
                         </div>
                         <div class="mb-3">
+                            <input type="hidden" id="currentPage" name="page" th:value="*{currentPage}"/>
                             <label for="capital" class="col-form-label">Capital:</label>
                             <input type="text" class="form-control" id="capital" name="capital" value="">
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-secondary" id="closebtn" data-bs-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary" value="submit" />
                     </div>
                 </div>

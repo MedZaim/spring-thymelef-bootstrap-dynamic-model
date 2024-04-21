@@ -10,6 +10,8 @@ import com.smi.zaim.repositories.CantryRepo;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,19 +28,20 @@ public class CantryControler {
         return "index";
     }
     @PostMapping("/save")
-    public String seve(Country country){
+    public String seve(Country country,@RequestParam(defaultValue = "0") int page){
         cantryRepo.save(country);
-        return "redirect:/";
+        return "redirect:/?page="+page;
     }
-    @GetMapping("/delet/{id}")
-    public String deletById(@PathParam("id") int id){
+    @GetMapping("/deleteCountry/")
+    public String deleteById(@RequestParam Integer id,@RequestParam(defaultValue = "0") int page){
+       System.out.println("00000000000=====>id = " + id);
         cantryRepo.deleteById(id);
-        return "redirect:/";
+        return "redirect:/?page="+page;
     }
 
     @GetMapping("/findOne/{id}")
     @ResponseBody
-    public String findOne(@PathVariable("id") Integer id) {
-        return cantryRepo.findById(id).get().toString();
+    public ResponseEntity<Country> findOne(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(cantryRepo.findById(id).get(), HttpStatus.OK);
     }
 }
